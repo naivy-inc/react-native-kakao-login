@@ -364,9 +364,12 @@ public class RNKakaoLoginsModule extends ReactContextBaseJavaModule implements A
 
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)){
-            return;
+        try {
+            if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)){
+                return;
+            }
         }
+        catch(java.lang.IllegalStateException err) {}
     }
 
     @Override
@@ -376,7 +379,10 @@ public class RNKakaoLoginsModule extends ReactContextBaseJavaModule implements A
 
     @Override
     public void onHostDestroy() {
-        Session.getCurrentSession().removeCallback(this.callback);
+        try {
+            Session.getCurrentSession().removeCallback(this.callback);
+        }
+        catch(java.lang.IllegalStateException err) {}
     }
 
     @Override
